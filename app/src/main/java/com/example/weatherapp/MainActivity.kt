@@ -36,11 +36,9 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val navActions = remember(navController) { NavigationActions(navController) }
 
-                Scaffold(
-                    bottomBar = {
-                        BottomNavigationBar(navController)
-                    }
-                ) { innerPadding ->
+                Scaffold(bottomBar = {
+                    BottomNavigationBar(navController)
+                }) { innerPadding ->
                     NavHost(
                         navController = navController,
                         startDestination = NavigationDestination.WeatherScreen.route,
@@ -49,8 +47,7 @@ class MainActivity : ComponentActivity() {
                         composable(NavigationDestination.WeatherScreen.route) {
                             WeatherScreen(
                                 weatherViewModel = hiltViewModel(),
-                                favoriteCityViewModel = hiltViewModel(),
-                                onNavigateToFavorites = navActions.navigateToFavorites
+                                favoriteCityViewModel = hiltViewModel()
                             )
                         }
                         composable(NavigationDestination.FavoriteCitiesScreen.route) {
@@ -69,20 +66,18 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BottomNavigationBar(navController: NavController) {
     val items = listOf(
-        NavigationDestination.WeatherScreen,
-        NavigationDestination.FavoriteCitiesScreen
+        NavigationDestination.WeatherScreen, NavigationDestination.FavoriteCitiesScreen
     )
     NavigationBar {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         items.forEach { screen ->
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        painter = painterResource(id = if (screen is NavigationDestination.WeatherScreen) R.drawable.ic_home else R.drawable.ic_favorite),
-                        contentDescription = null
-                    )
-                },
+            NavigationBarItem(icon = {
+                Icon(
+                    painter = painterResource(id = if (screen is NavigationDestination.WeatherScreen) R.drawable.ic_home else R.drawable.ic_favorite),
+                    contentDescription = null
+                )
+            },
                 label = { Text(screen.route) },
                 selected = currentRoute == screen.route,
                 onClick = {
@@ -93,8 +88,7 @@ fun BottomNavigationBar(navController: NavController) {
                         launchSingleTop = true
                         restoreState = true
                     }
-                }
-            )
+                })
         }
     }
 }

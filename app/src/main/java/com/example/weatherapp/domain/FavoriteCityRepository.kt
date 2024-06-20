@@ -14,6 +14,10 @@ class FavoriteCityRepository @Inject constructor(
         favoriteCityDao.insert(FavoriteCity(cityName))
     }
 
+    suspend fun deleteFavoriteCity(cityName: String) {
+        favoriteCityDao.deleteFavoriteCity(cityName)
+    }
+
     fun getFavoriteCities(): Flow<List<FavoriteCity>> {
         return favoriteCityDao.getFavoriteCities()
     }

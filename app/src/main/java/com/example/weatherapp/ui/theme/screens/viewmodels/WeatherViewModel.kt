@@ -1,4 +1,4 @@
-package com.example.weatherapp.ui.theme.viewmodels
+package com.example.weatherapp.ui.theme.screens.viewmodels
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel

@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,14 +27,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.weatherapp.R
-import com.example.weatherapp.ui.theme.viewmodels.FavoriteCityViewModel
-import com.example.weatherapp.ui.theme.viewmodels.WeatherViewModel
+import com.example.weatherapp.ui.theme.screens.viewmodels.FavoriteCityViewModel
+import com.example.weatherapp.ui.theme.screens.viewmodels.WeatherViewModel
 
 @Composable
 fun WeatherScreen(
     weatherViewModel: WeatherViewModel,
-    favoriteCityViewModel: FavoriteCityViewModel,
-    onNavigateToFavorites: () -> Unit
+    favoriteCityViewModel: FavoriteCityViewModel
 ) {
     val state by weatherViewModel.uiState.collectAsState()
 
@@ -49,10 +50,21 @@ fun WeatherScreen(
             value = city,
             onValueChange = { city = it },
             label = { Text(stringResource(R.string.enter_city_name)) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedBorderColor = Color.DarkGray,
+                focusedLabelColor = Color.DarkGray,
+                cursorColor = Color.DarkGray
+            )
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = { weatherViewModel.fetchWeather(city) }) {
+        Button(
+            onClick = { weatherViewModel.fetchWeather(city) }, colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Black, contentColor = Color.White
+            )
+        ) {
             if (state.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp)
                 Spacer(modifier = Modifier.width(8.dp))
@@ -72,7 +84,7 @@ fun WeatherScreen(
             Text(stringResource(R.string.description, it.weather[0].description))
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = { favoriteCityViewModel.addFavoriteCity(it.name) }) {
-                Text("Add to Favorites")
+                Text(stringResource(R.string.add_to_favorites))
             }
         }
     }
