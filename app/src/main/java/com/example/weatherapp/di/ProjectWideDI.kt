@@ -61,6 +61,7 @@ object DatabaseModule {
     }
 
     @Provides
+    @Singleton
     fun provideFavoriteCityDao(database: WeatherDatabase): FavoriteCityDao {
         return database.favoriteCityDao()
     }

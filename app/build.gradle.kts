@@ -62,6 +62,9 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.logging.interceptor)
     implementation (libs.okhttp)
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)

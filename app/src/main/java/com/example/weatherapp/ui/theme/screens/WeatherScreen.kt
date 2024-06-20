@@ -25,10 +25,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.weatherapp.R
+import com.example.weatherapp.ui.theme.viewmodels.FavoriteCityViewModel
 import com.example.weatherapp.ui.theme.viewmodels.WeatherViewModel
 
 @Composable
-fun WeatherScreen(weatherViewModel: WeatherViewModel) {
+fun WeatherScreen(
+    weatherViewModel: WeatherViewModel,
+    favoriteCityViewModel: FavoriteCityViewModel,
+    onNavigateToFavorites: () -> Unit
+) {
     val state by weatherViewModel.uiState.collectAsState()
 
     var city by remember { mutableStateOf("") }
@@ -65,9 +70,13 @@ fun WeatherScreen(weatherViewModel: WeatherViewModel) {
             Text(stringResource(R.string.humidity, it.main.humidity))
             Text(stringResource(R.string.pressure_hpa, it.main.pressure))
             Text(stringResource(R.string.description, it.weather[0].description))
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = { favoriteCityViewModel.addFavoriteCity(it.name) }) {
+                Text("Add to Favorites")
+            }
         }
-        state.errorMessage?.let {
-            Text(text = stringResource(id = it), color = Color.Red)
-        }
+    }
+    state.errorMessage?.let {
+        Text(text = "Error: $it", color = Color.Red)
     }
 }
