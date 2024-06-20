@@ -1,4 +1,4 @@
-package com.example.weatherapp.ui.theme.viewmodels
+package com.example.weatherapp.ui.theme.screens.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,6 +30,12 @@ class FavoriteCityViewModel @Inject constructor(
     fun addFavoriteCity(cityName: String) {
         viewModelScope.launch {
             favoriteCityRepository.addFavoriteCity(cityName)
+        }
+    }
+
+    fun deleteFavoriteCity(cityName: String) {
+        viewModelScope.launch {
+            favoriteCityRepository.deleteFavoriteCity(cityName)
         }
     }
 }
