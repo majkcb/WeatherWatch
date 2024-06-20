@@ -13,4 +13,6 @@
     <string name="network_error">Network error</string>
     <string name="weather_not_found">Weather not found</string>
     <string name="server_error">Server error</string>
+    <string name="favorite_cities">Favorite Cities:</string>
+    <string name="back_to_weather">Back to Weather</string>
 </resources>
