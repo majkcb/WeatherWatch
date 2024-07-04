@@ -18,27 +18,42 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.weatherapp.R
+import com.example.weatherapp.connection.Main
+import com.example.weatherapp.connection.Sys
+import com.example.weatherapp.connection.Weather
+import com.example.weatherapp.connection.WeatherResponse
 import com.example.weatherapp.ui.theme.screens.viewmodels.FavoriteCityViewModel
+import com.example.weatherapp.ui.theme.screens.viewmodels.WeatherUiState
 import com.example.weatherapp.ui.theme.screens.viewmodels.WeatherViewModel
 
 @Composable
 fun WeatherScreen(
-    weatherViewModel: WeatherViewModel,
-    favoriteCityViewModel: FavoriteCityViewModel
+    weatherViewModel: WeatherViewModel, favoriteCityViewModel: FavoriteCityViewModel
 ) {
     val state by weatherViewModel.uiState.collectAsState()
 
-    var city by remember { mutableStateOf("") }
+    WeatherScreenContent(cityInput = state.cityInput,
+        onCityInputChange = { weatherViewModel.updateCityInput(it) },
+        onFetchWeather = { weatherViewModel.fetchWeather(state.cityInput) },
+        weatherState = state,
+        onAddToFavorites = { favoriteCityViewModel.addFavoriteCity(it) })
+}
 
+@Composable
+fun WeatherScreenContent(
+    cityInput: String,
+    onCityInputChange: (String) -> Unit,
+    onFetchWeather: () -> Unit,
+    weatherState: WeatherUiState,
+    onAddToFavorites: (String) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -47,8 +62,8 @@ fun WeatherScreen(
         verticalArrangement = Arrangement.Center
     ) {
         OutlinedTextField(
-            value = city,
-            onValueChange = { city = it },
+            value = cityInput,
+            onValueChange = onCityInputChange,
             label = { Text(stringResource(R.string.enter_city_name)) },
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
@@ -61,11 +76,11 @@ fun WeatherScreen(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Button(
-            onClick = { weatherViewModel.fetchWeather(city) }, colors = ButtonDefaults.buttonColors(
+            onClick = onFetchWeather, colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Black, contentColor = Color.White
             )
         ) {
-            if (state.isLoading) {
+            if (weatherState.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(stringResource(R.string.fetching_weather))
@@ -74,7 +89,7 @@ fun WeatherScreen(
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        state.weatherResponse?.let {
+        weatherState.weatherResponse?.let {
             Text(stringResource(R.string.city, it.name, it.sys.country))
             Text(stringResource(R.string.temperature_c, it.main.temp))
             Text(stringResource(R.string.min_temp_c, it.main.tempMin))
@@ -83,12 +98,40 @@ fun WeatherScreen(
             Text(stringResource(R.string.pressure_hpa, it.main.pressure))
             Text(stringResource(R.string.description, it.weather[0].description))
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { favoriteCityViewModel.addFavoriteCity(it.name) }) {
+            Button(onClick = { onAddToFavorites(it.name) }) {
                 Text(stringResource(R.string.add_to_favorites))
             }
         }
     }
-    state.errorMessage?.let {
+    weatherState.errorMessage?.let {
         Text(text = "Error: $it", color = Color.Red)
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun WeatherScreenPreview() {
+    WeatherScreenContent(cityInput = "Stockholm",
+        onCityInputChange = {},
+        onFetchWeather = {},
+        weatherState = WeatherUiState(
+            isLoading = false, weatherResponse = WeatherResponse(
+                name = "Stockholm",
+                sys = Sys(country = "SE"),
+                main = Main(
+                    temp = 18.0,
+                    tempMin = 15.0,
+                    tempMax = 20.0,
+                    humidity = 65,
+                    pressure = 1012,
+                    feelsLike = 17.0
+                ),
+                weather = listOf(Weather(description = "clear sky", icon = "01d")),
+                dt = 1625234400,
+                timezone = 7200
+            )
+        ),
+        onAddToFavorites = {})
+}
+
+
