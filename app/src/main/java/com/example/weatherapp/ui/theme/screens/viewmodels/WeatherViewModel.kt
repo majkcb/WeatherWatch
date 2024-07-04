@@ -41,6 +41,11 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
+    fun updateCityInput(input: String) {
+        _uiState.update { it.copy(cityInput = input) }
+    }
+
+
     private fun mapErrorToMessageId(error: WeatherError): Int {
         return when (error) {
             WeatherError.NetworkError -> R.string.network_error
@@ -53,5 +58,6 @@ class WeatherViewModel @Inject constructor(
 data class WeatherUiState(
     val isLoading: Boolean = false,
     val weatherResponse: WeatherResponse? = null,
+    val cityInput: String = "",
     @StringRes val errorMessage: Int? = null
 )
