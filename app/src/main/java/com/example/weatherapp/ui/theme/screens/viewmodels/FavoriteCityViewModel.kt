@@ -2,7 +2,7 @@ package com.example.weatherapp.ui.theme.screens.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherapp.data.database.FavoriteCity
+import com.example.weatherapp.data.models.FavoriteCity
 import com.example.weatherapp.domain.FavoriteCityRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
