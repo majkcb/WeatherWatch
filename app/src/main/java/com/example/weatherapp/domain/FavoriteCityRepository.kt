@@ -1,6 +1,6 @@
 package com.example.weatherapp.domain
 
-import com.example.weatherapp.data.database.FavoriteCity
+import com.example.weatherapp.data.models.FavoriteCity
 import com.example.weatherapp.data.database.FavoriteCityDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

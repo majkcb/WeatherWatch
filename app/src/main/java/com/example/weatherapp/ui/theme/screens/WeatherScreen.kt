@@ -1,5 +1,6 @@
 package com.example.weatherapp.ui.theme.screens
 
+import android.view.Gravity
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -71,7 +72,9 @@ fun WeatherScreenContent(
     var isFavorite by remember { mutableStateOf(false) }
 
     if (showToast) {
-        Toast.makeText(context, stringResource(R.string.added_to_favorites), Toast.LENGTH_SHORT).show()
+        val toast = Toast.makeText(context, stringResource(R.string.added_to_favorites), Toast.LENGTH_SHORT)
+        toast.setGravity(Gravity.TOP, 0, 100)
+        toast.show()
         showToast = false
     }
 
