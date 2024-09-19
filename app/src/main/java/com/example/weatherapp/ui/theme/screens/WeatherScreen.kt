@@ -38,13 +38,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weatherapp.R
-import com.example.weatherapp.connection.Main
-import com.example.weatherapp.connection.Sys
-import com.example.weatherapp.connection.Weather
-import com.example.weatherapp.connection.WeatherResponse
-import com.example.weatherapp.ui.theme.screens.viewmodels.FavoriteCityViewModel
-import com.example.weatherapp.ui.theme.screens.viewmodels.WeatherUiState
-import com.example.weatherapp.ui.theme.screens.viewmodels.WeatherViewModel
+import com.example.weatherapp.data.connection.Main
+import com.example.weatherapp.data.connection.Sys
+import com.example.weatherapp.data.connection.Weather
+import com.example.weatherapp.data.connection.WeatherResponse
 
 @Composable
 fun WeatherScreen(

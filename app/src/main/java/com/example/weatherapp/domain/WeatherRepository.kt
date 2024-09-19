@@ -1,7 +1,7 @@
 package com.example.weatherapp.domain
 
 import arrow.core.Either
-import com.example.weatherapp.connection.WeatherResponse
+import com.example.weatherapp.data.connection.WeatherResponse
 import com.example.weatherapp.data.WeatherDataSource
 import com.example.weatherapp.data.WeatherError
 import kotlinx.coroutines.Dispatchers
