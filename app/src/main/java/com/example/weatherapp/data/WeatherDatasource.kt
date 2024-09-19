@@ -3,8 +3,8 @@ package com.example.weatherapp.data
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import com.example.weatherapp.connection.ApiService
-import com.example.weatherapp.connection.WeatherResponse
+import com.example.weatherapp.data.connection.ApiService
+import com.example.weatherapp.data.connection.WeatherResponse
 import com.google.gson.Gson
 import retrofit2.Response
 import javax.inject.Inject

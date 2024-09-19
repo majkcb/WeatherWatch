@@ -1,10 +1,10 @@
-package com.example.weatherapp.ui.theme.screens.viewmodels
+package com.example.weatherapp.ui.theme.screens
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.R
-import com.example.weatherapp.connection.WeatherResponse
+import com.example.weatherapp.data.connection.WeatherResponse
 import com.example.weatherapp.data.WeatherError
 import com.example.weatherapp.domain.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
